@@ -26,27 +26,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <script>
       var myEl = document.querySelector('wind-direction-indicator');
+      var dirEl = document.querySelector('#compassValue');
+      var spdEl = document.querySelector('#speedValue');
+      var gstEl = document.querySelector('#gustValue');
 
       suite('<wind-direction-indicator>', function() {
 
-        test('defines the "author" property', function() {
-          assert.equal(myEl.author.name, 'Dimitri Glazkov');
-          assert.equal(myEl.author.image, 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg');
+        test('set direction tests', function() {
+          expect(myEl).to.be.ok;
+          expect(dirEl).to.be.ok;
+
+          var testValues = [
+            {
+              dir: 360,
+              value: 'N'
+            },
+            {
+              dir: 90,
+              value: 'E'
+            },
+            {
+              dir: 180,
+              value: 'S'
+            },
+            {
+              dir: 270,
+              value: 'W'
+            },
+            {
+              dir: 45,
+              value: 'NE'
+            },
+            {
+              dir: 102.4,
+              value: 'ESE'
+            },
+            {
+              dir: 247.6,
+              value: 'WSW'
+            },
+            {
+              dir: 300,
+              value: 'WNW'
+            },
+          ];
+          for(var i = 0; i < testValues.length; i++){
+            myEl.direction = testValues[i].dir;
+            expect(myEl).to.have.property('_windCompass').that.equals(testValues[i].value);
+            expect(dirEl).to.have.property('innerText').that.equals(testValues[i].value);
+          }
         });
 
-        test('says hello', function() {
-          assert.equal(myEl.sayHello(), 'wind-direction-indicator says, Hello World!');
+        test('set speed test', function() {
+          expect(myEl).to.be.ok;
+          expect(spdEl).to.be.ok;
 
-          var greetings = myEl.sayHello('greetings Earthlings');
-          assert.equal(greetings, 'wind-direction-indicator says, greetings Earthlings');
+          myEl.speed = 45.22;
+          expect(spdEl).to.have.property('innerText').that.equals("45.22");
         });
 
-        test('fires lasers', function(done) {
-          myEl.addEventListener('wind-direction-indicator-lasers', function(event) {
-            assert.equal(event.detail.sound, 'Pew pew!');
-            done();
-          });
-          myEl.fireLasers();
+        test('set gust test', function() {
+          expect(myEl).to.be.ok;
+          expect(gstEl).to.be.ok;
+
+          myEl.gust = 50.5421;
+          expect(gstEl).to.have.property('innerText').that.equals("50.54");
         });
 
       });
