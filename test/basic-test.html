@@ -26,14 +26,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <script>
       var myEl = document.querySelector('wind-direction-indicator');
-      var dirEl = document.querySelector('#compassValue');
-      var spdEl = document.querySelector('#speedValue');
-      var gstEl = document.querySelector('#gustValue');
 
       suite('<wind-direction-indicator>', function() {
 
         test('set direction tests', function() {
           expect(myEl).to.be.ok;
+          var dirEl = myEl.querySelector('#compassValue');
           expect(dirEl).to.be.ok;
 
           var testValues = [
@@ -73,24 +71,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           for(var i = 0; i < testValues.length; i++){
             myEl.direction = testValues[i].dir;
             expect(myEl).to.have.property('_windCompass').that.equals(testValues[i].value);
-            expect(dirEl).to.have.property('innerText').that.equals(testValues[i].value);
+            expect(dirEl.innerText || dirEl.textContent.trim()).to.equal(testValues[i].value);
           }
         });
 
         test('set speed test', function() {
           expect(myEl).to.be.ok;
+          var spdEl = myEl.querySelector('#speedValue');
           expect(spdEl).to.be.ok;
 
           myEl.speed = 45.22;
-          expect(spdEl).to.have.property('innerText').that.equals("45.22");
+          expect(spdEl.innerText || spdEl.textContent.trim()).to.equal("45.22");
         });
 
         test('set gust test', function() {
           expect(myEl).to.be.ok;
+          var gstEl = myEl.querySelector('#gustValue');
           expect(gstEl).to.be.ok;
 
           myEl.gust = 50.5421;
-          expect(gstEl).to.have.property('innerText').that.equals("50.54");
+          expect(gstEl.innerText || gstEl.textContent.trim()).to.equal("50.54");
         });
 
       });
