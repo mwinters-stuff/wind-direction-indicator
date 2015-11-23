@@ -2,3 +2,5 @@
 # wind-direction-indicator
 
 An element providing wind direction and speed indication.
+ 
+See documentation and demo --> http://wintersandroid.github.io/wind-direction-indicator
