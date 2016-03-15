@@ -294,7 +294,7 @@ Example:
     },
 
     _decimalFormat: function(value) {
-      return value.toFixed(2);
+      return value ? value.toFixed(2): '0.00';
     },
 
 
