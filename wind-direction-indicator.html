@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../paper-styles/typography.html">
 <link rel="import" href="../paper-styles/default-theme.html">
@@ -19,8 +19,8 @@ Example:
 
 
 <dom-module id="wind-direction-indicator">
-
-  <style>
+  <template>
+    <style>
     :host {
       display: block;
       box-sizing: border-box;
@@ -143,160 +143,168 @@ Example:
       vertical-align: middle;
     }
   </style>
+<div id="wind-wrapper">
 
-  <template>
-    <div id="wind-wrapper">
-
-        <div id="curWind">
-          <div id="windCompassContainer">
-            <div id="windCompass" class="data" >
-              <div class="dial">
-                <div class="arrow-direction"></div>
-              </div>
-            </div>
-            <div id="windCompassSpeed" >
-              <div class="data" id="speedValue">{{_decimalFormat(speed)}}</div>
-              <div class="unit">km/h</div>
-            </div>
-          </div>
+  <div id="curWind">
+    <div id="windCompassContainer">
+      <div id="windCompass" class="data">
+        <div class="dial">
+          <div class="arrow-direction"></div>
         </div>
-        <div id="windDir">
-          <span class="centered">
+      </div>
+      <div id="windCompassSpeed">
+        <div class="data" id="speedValue">{{_decimalFormat(speed)}}</div>
+        <div class="unit">km/h</div>
+      </div>
+    </div>
+  </div>
+  <div id="windDir">
+    <span class="centered">
             <span class=" info">
               Wind from
               <span class="value" id="compassValue">{{_windCompass}}</span>
-            </span>
-            <span class="info" >
-              <br>Gusts
-              <span class="data">
-                <span class="value" id="gustValue">{{_decimalFormat(gust)}}</span>
-                <span class="unit">km/h</span>
-              </span>
-            </span>
-          </span>
-        </div>
+    </span>
+    <span class="info">
+      <br>Gusts
+      <span class="data">
+        <span class="value" id="gustValue">{{_decimalFormat(gust)}}</span>
+        <span class="unit">km/h</span>
+      </span>
+    </span>
+    </span>
+  </div>
 
-      </div>
+</div>
 
-  </template>
+</template>
 
 </dom-module>
 
 <script>
-  Polymer({
+  class WindDirectionIndicator extends Polymer.Element {
+    static get is() { return 'wind-direction-indicator'; }
+    static get config() {
+      return {
+        properties: {
 
-    is: 'wind-direction-indicator',
+          /**
+          * `direction` the wind direction in degrees.
+          */
+          direction: {
+            type: Number,
+            value: 0.0,
+            observer: '_directionChange'
+          },
+          /**
+          * `speed` the wind speed in km/h.
+          */
+          speed: {
+            type: Number,
+            value: 0.0,
+          },
+          /**
+          * `gust` the wind gust in km/h.
+          */
+          gust: {
+            type: Number,
+            value: 0.0,
+          },
 
-    properties: {
+          directions: {
+            type: Array,
+            value: [{
+              direction: 'N',
+              from: 348.75,
+              to: 11.25
+            }, {
+              direction: 'NNE',
+              from: 11.25,
+              to: 33.75
+            }, {
+              direction: 'NE',
+              from: 33.75,
+              to: 56.25
+            }, {
+              direction: 'ENE',
+              from: 56.25,
+              to: 78.75
+            }, {
+              direction: 'E',
+              from: 78.75,
+              to: 101.25
+            }, {
+              direction: 'ESE',
+              from: 101.25,
+              to: 123.75
+            }, {
+              direction: 'SE',
+              from: 123.75,
+              to: 146.25
+            }, {
+              direction: 'SSE',
+              from: 146.25,
+              to: 168.75
+            }, {
+              direction: 'S',
+              from: 168.75,
+              to: 191.25
+            }, {
+              direction: 'SSW',
+              from: 191.25,
+              to: 213.75
+            }, {
+              direction: 'SW',
+              from: 213.75,
+              to: 236.25
+            }, {
+              direction: 'WSW',
+              from: 236.25,
+              to: 258.75
+            }, {
+              direction: 'W',
+              from: 258.75,
+              to: 281.25
+            }, {
+              direction: 'WNW',
+              from: 281.25,
+              to: 303.75
+            }, {
+              direction: 'NW',
+              from: 303.75,
+              to: 326.25
+            }, {
+              direction: 'NNW',
+              from: 326.25,
+              to: 348.75
+            }]
+          }
 
-      /**
-       * `direction` the wind direction in degrees.
-       */
-      direction: {
-        type: Number,
-        value: 0.0,
-        observer: '_directionChange'
-      },
-      /**
-       * `speed` the wind speed in km/h.
-       */
-      speed: {
-        type: Number,
-        value: 0.0,
-      },
-      /**
-       * `gust` the wind gust in km/h.
-       */
-      gust: {
-        type: Number,
-        value: 0.0,
-      },
+        }
+      }
+    }
 
-    },
+    _directionChange(e) {
+      var transformText = 'rotate(' + e + 'deg)';
+      this.$.windCompass.style.webkitTransform = transformText;
+      this.$.windCompass.style.transform = transformText;
 
-    _directions: [{
-      direction: 'N',
-      from: 348.75,
-      to: 11.25
-    }, {
-      direction: 'NNE',
-      from: 11.25,
-      to: 33.75
-    }, {
-      direction: 'NE',
-      from: 33.75,
-      to: 56.25
-    }, {
-      direction: 'ENE',
-      from: 56.25,
-      to: 78.75
-    }, {
-      direction: 'E',
-      from: 78.75,
-      to: 101.25
-    }, {
-      direction: 'ESE',
-      from: 101.25,
-      to: 123.75
-    }, {
-      direction: 'SE',
-      from: 123.75,
-      to: 146.25
-    }, {
-      direction: 'SSE',
-      from: 146.25,
-      to: 168.75
-    }, {
-      direction: 'S',
-      from: 168.75,
-      to: 191.25
-    }, {
-      direction: 'SSW',
-      from: 191.25,
-      to: 213.75
-    }, {
-      direction: 'SW',
-      from: 213.75,
-      to: 236.25
-    }, {
-      direction: 'WSW',
-      from: 236.25,
-      to: 258.75
-    }, {
-      direction: 'W',
-      from: 258.75,
-      to: 281.25
-    }, {
-      direction: 'WNW',
-      from: 281.25,
-      to: 303.75
-    }, {
-      direction: 'NW',
-      from: 303.75,
-      to: 326.25
-    }, {
-      direction: 'NNW',
-      from: 326.25,
-      to: 348.75
-    }],
-
-      _directionChange: function(e) {
-      this.transform('rotate(' + e + 'deg)', this.$.windCompass);
-
-      for (var i = 1; i < this._directions.length; i++) {
-        if (e >= this._directions[i].from && e < this._directions[i].to) {
-          this._windCompass = this._directions[i].direction;
+      for (var i = 1; i < this.directions.length; i++) {
+        if (e >= this.directions[i].from && e < this.directions[i].to) {
+          this._windCompass = this.directions[i].direction;
           return;
         }
       }
-      this._windCompass = this._directions[0].direction;
+      this._windCompass = this.directions[0].direction;
 
-    },
+    }
 
-    _decimalFormat: function(value) {
-      return value ? value.toFixed(2): '0.00';
-    },
+    _decimalFormat(value) {
+      return value ? value.toFixed(2) : '0.00';
+    }
 
 
-  });
+  }
+
+  customElements.define(WindDirectionIndicator.is, WindDirectionIndicator);
+
 </script>
