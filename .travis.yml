@@ -25,3 +25,7 @@ script:
   - bash ./gpages_build.sh wintersandroid wind-direction-indicator travis androidapps@winters.org.nz
 #  - "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then wct -s 'default'; fi"
 dist: trusty
+branches:
+  only:
+    - master
+    
