@@ -4,4 +4,4 @@
 An element providing wind direction and speed indication.
  
 See documentation and demo --> http://wintersandroid.github.io/wind-direction-indicator
-Now for polymer 2
+Now for polymer 2.
