@@ -31,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         test('set direction tests', function() {
           expect(myEl).to.be.ok;
-          var dirEl = myEl.querySelector('#compassValue');
+          var dirEl = myEl.$.compassValue;
           expect(dirEl).to.be.ok;
 
           var testValues = [
@@ -77,7 +77,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         test('set speed test', function() {
           expect(myEl).to.be.ok;
-          var spdEl = myEl.querySelector('#speedValue');
+          var spdEl = myEl.$.speedValue;
           expect(spdEl).to.be.ok;
 
           myEl.speed = 45.22;
@@ -86,7 +86,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         test('set gust test', function() {
           expect(myEl).to.be.ok;
-          var gstEl = myEl.querySelector('#gustValue');
+          var gstEl = myEl.$.gustValue;
           expect(gstEl).to.be.ok;
 
           myEl.gust = 50.5421;

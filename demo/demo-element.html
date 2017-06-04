@@ -1,13 +1,14 @@
+<link rel="import" href="../../polymer/polymer-element.html">
 <link rel="import" href="../wind-direction-indicator.html">
 <link rel="import" href="../../paper-button/paper-button.html">
 
 <dom-module id="demo-element">
+  <template>
   <style>
     :host {
       display: block;
     }
   </style>
-  <template>
     <wind-direction-indicator direction="{{degrees}}" speed="{{speed}}" gust="{{gust}}"></wind-direction-indicator>
     <div>Wind Direction:
       <paper-button on-tap="tapDecreaseDegrees" raised>Decrease</paper-button>
@@ -28,55 +29,57 @@
 
   </template>
   <script>
-    Polymer({
-      is: 'demo-element',
-      ready: function(){
+    class DemoElement extends Polymer.Element{
+      static get is(){ return 'demo-element';}
+      constructor(){
+        super();
         this.degrees = 0;
         this.speed=20.30;
         this.gust = 22.4;
 
-      },
+      }
 
-      tapDecreaseDegrees: function(){
+      tapDecreaseDegrees(){
         this.degrees -= (Math.random() * 10.0);
         if(this.degrees <= 0){
           this.degrees = 360 - (Math.random() * 10.0);;
         }
-      },
+      }
 
-      tapIncreaseDegrees: function(){
+      tapIncreaseDegrees(){
         this.degrees += (Math.random() * 10.0);
         if(this.degrees > 360){
           this.degrees = (Math.random() * 10.0);
         }
-      },
+      }
 
-      tapDecreaseSpeed: function(){
+      tapDecreaseSpeed(){
         if(this.speed > 0){
           this.speed -= 0.10;
         }
 
-      },
+      }
 
-      tapIncreaseSpeed: function(){
+      tapIncreaseSpeed(){
         this.speed += 0.10
-      },
+      }
 
-      tapDecreaseGust: function(){
+      tapDecreaseGust(){
         if(this.gust > 0){
           this.gust -= 0.10;
         }
 
-      },
+      }
 
-      tapIncreaseGust: function(){
+      tapIncreaseGust(){
         this.gust += 0.10
-      },
+      }
 
-      _decimalFormat: function(value){
+      _decimalFormat(value){
           return value.toFixed(2);
-      },
+      }
 
-    });
+    }
+    customElements.define(DemoElement.is, DemoElement);
   </script>
 </dom-module>
