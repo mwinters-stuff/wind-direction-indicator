@@ -183,17 +183,20 @@ Example:
 <script>
   class WindDirectionIndicator extends Polymer.Element {
     static get is() { return 'wind-direction-indicator'; }
-    static get config() {
-      return {
-        properties: {
+      static get observers(){
+        return [
+            '_directionChange(direction)'
+          ];
+      }
+      static get properties() {
+        return {
 
           /**
           * `direction` the wind direction in degrees.
           */
           direction: {
             type: Number,
-            value: 0.0,
-            observer: '_directionChange'
+            value: 0.0
           },
           /**
           * `speed` the wind speed in km/h.
@@ -280,8 +283,8 @@ Example:
           }
 
         }
-      }
-    }
+      };
+    
 
     _directionChange(e) {
       var transformText = 'rotate(' + e + 'deg)';
