@@ -47,10 +47,6 @@ bower install $org/$repo#$branch
 git checkout ${branch} -- demo
 rm -rf components/$repo/demo
 mv demo components/$repo/
-pushd .
-cd components/$repo/demo
-polymer analyze > analysis.json
-popd
 
 # redirect by default to the component folder
 echo "<META http-equiv="refresh" content=\"0;URL=components/$repo/\">" >index.html
