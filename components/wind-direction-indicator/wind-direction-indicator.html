@@ -1,0 +1,313 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="../paper-styles/color.html">
+
+<!--
+An element providing a wind direction and speed indicator.
+
+Example:
+
+    <wind-direction-indicator direction="[[direction]]" speed="[[speedkmh]]" gust="[[gustkmh]]"></wind-direction-indicator>
+
+@element wind-direction-indicator
+@demo demo/index.html
+@test test/index.html
+
+-->
+
+
+<dom-module id="wind-direction-indicator">
+  <template>
+    <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    #wind-wrapper {
+      @apply(--layout-horizontal);
+    }
+
+    .vertical {
+      @apply(--layout-vertical);
+    }
+
+    #curWind {
+      margin-left: 50px;
+      left: 10px;
+      width: auto;
+      height: auto;
+    }
+
+    #curWind,
+    #windDir {
+      float: left;
+      font-size: 0.9375rem;
+      margin: 0 0 10px 25px;
+      position: relative;
+    }
+
+    #windCompassContainer {
+      width: 95px;
+      height: 95px;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #windCompassContainer #windCompass {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+    }
+
+    #windCompass {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+
+      -webkit-transition: all 0.5s ease-in-out;
+      -moz-transition: all 0.5s ease-in-out;
+      -o-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+    }
+
+
+    #windCompassContainer #windCompass .dial {
+      border-radius: 50%;
+      width: 85px;
+      height: 85px;
+      border: 5px solid var(--paper-blue-400);
+      position: relative;
+      -moz-box-sizing: content-box;
+      -webkit-box-sizing: content-box;
+      box-sizing: content-box;
+    }
+
+    #windCompassContainer #windCompass .arrow-direction {
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 21px solid var(--paper-red-900);
+      position: absolute;
+      left: 35.5px;
+      top: -11.66667px;
+    }
+
+    #windCompassContainer #windCompassSpeed {
+      top: 30px;
+      left: 0;
+      width: 95px;
+      font-size: 0.9375rem;
+      position: absolute;
+      text-align: center;
+      line-height: inherit;
+    }
+
+    #windCompassContainer #windCompassSpeed .data {
+      @apply(--paper-font-title);
+      margin: 0;
+    }
+
+    #windDir {
+      margin-left: 25px;
+      display: table;
+      height: 95px;
+      line-height: 1.5;
+    }
+
+    .unit {
+      @apply(--paper-font-body1);
+      color: var(--primary-text-color);
+    }
+
+    #windDir .value {
+      @apply(--paper-font-body1);
+      color: var(--primary-text-color);
+    }
+    .value {
+      color: var(--primary-text-color);
+    }
+
+    .info{
+        @apply(--paper-font-body1);
+         color: var(--secondary-text-color);
+    }
+
+    .centered {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  </style>
+<div id="wind-wrapper">
+
+  <div id="curWind">
+    <div id="windCompassContainer">
+      <div id="windCompass" class="data">
+        <div class="dial">
+          <div class="arrow-direction"></div>
+        </div>
+      </div>
+      <div id="windCompassSpeed">
+        <div class="data" id="speedValue">{{_decimalFormat(speed)}}</div>
+        <div class="unit">km/h</div>
+      </div>
+    </div>
+  </div>
+  <div id="windDir">
+    <span class="centered">
+            <span class=" info">
+              Wind from
+              <span class="value" id="compassValue">{{_windCompass}}</span>
+    </span>
+    <span class="info">
+      <br>Gusts
+      <span class="data">
+        <span class="value" id="gustValue">{{_decimalFormat(gust)}}</span>
+        <span class="unit">km/h</span>
+      </span>
+    </span>
+    </span>
+  </div>
+
+</div>
+
+</template>
+
+</dom-module>
+
+<script>
+  class WindDirectionIndicator extends Polymer.Element {
+    static get is() { return 'wind-direction-indicator'; }
+      static get observers(){
+        return [
+            '_directionChange(direction)'
+          ];
+      }
+      static get properties() {
+        return {
+
+          /**
+          * `direction` the wind direction in degrees.
+          */
+          direction: {
+            type: Number,
+            value: 0.0
+          },
+          /**
+          * `speed` the wind speed in km/h.
+          */
+          speed: {
+            type: Number,
+            value: 0.0,
+          },
+          /**
+          * `gust` the wind gust in km/h.
+          */
+          gust: {
+            type: Number,
+            value: 0.0,
+          },
+
+          directions: {
+            type: Array,
+            value: [{
+              direction: 'N',
+              from: 348.75,
+              to: 11.25
+            }, {
+              direction: 'NNE',
+              from: 11.25,
+              to: 33.75
+            }, {
+              direction: 'NE',
+              from: 33.75,
+              to: 56.25
+            }, {
+              direction: 'ENE',
+              from: 56.25,
+              to: 78.75
+            }, {
+              direction: 'E',
+              from: 78.75,
+              to: 101.25
+            }, {
+              direction: 'ESE',
+              from: 101.25,
+              to: 123.75
+            }, {
+              direction: 'SE',
+              from: 123.75,
+              to: 146.25
+            }, {
+              direction: 'SSE',
+              from: 146.25,
+              to: 168.75
+            }, {
+              direction: 'S',
+              from: 168.75,
+              to: 191.25
+            }, {
+              direction: 'SSW',
+              from: 191.25,
+              to: 213.75
+            }, {
+              direction: 'SW',
+              from: 213.75,
+              to: 236.25
+            }, {
+              direction: 'WSW',
+              from: 236.25,
+              to: 258.75
+            }, {
+              direction: 'W',
+              from: 258.75,
+              to: 281.25
+            }, {
+              direction: 'WNW',
+              from: 281.25,
+              to: 303.75
+            }, {
+              direction: 'NW',
+              from: 303.75,
+              to: 326.25
+            }, {
+              direction: 'NNW',
+              from: 326.25,
+              to: 348.75
+            }]
+          }
+
+        }
+      };
+    
+
+    _directionChange(e) {
+      var transformText = 'rotate(' + e + 'deg)';
+      this.$.windCompass.style.webkitTransform = transformText;
+      this.$.windCompass.style.transform = transformText;
+
+      for (var i = 1; i < this.directions.length; i++) {
+        if (e >= this.directions[i].from && e < this.directions[i].to) {
+          this._windCompass = this.directions[i].direction;
+          return;
+        }
+      }
+      this._windCompass = this.directions[0].direction;
+
+    }
+
+    _decimalFormat(value) {
+      return value ? value.toFixed(2) : '0.00';
+    }
+
+
+  }
+
+  customElements.define(WindDirectionIndicator.is, WindDirectionIndicator);
+
+</script>

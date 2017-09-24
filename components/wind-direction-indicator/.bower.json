@@ -1,0 +1,38 @@
+{
+  "name": "wind-direction-indicator",
+  "authors": [
+    "Mathew Winters <wintersandroid@winters.nz>"
+  ],
+  "description": "An element providing a wind direction and speed indicator.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed"
+  ],
+  "main": "wind-direction-indicator.html",
+  "license": "https://github.com/wintersandroid/wind-direction-indicator/LICENSE.txt",
+  "homepage": "https://github.com/wintersandroid/wind-direction-indicator/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^3.0.0",
+    "test-fixture": "polymerelements/test-fixture#^3.0.0",
+    "web-component-tester": "*",
+    "paper-button": "^2.0.0"
+  },
+  "_release": "721a16b316",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "721a16b316816382b0acc899c9b4d137ca6a7a53"
+  },
+  "_source": "https://github.com/wintersandroid/wind-direction-indicator.git",
+  "_target": "master",
+  "_originalSource": "wintersandroid/wind-direction-indicator",
+  "_direct": true
+}
