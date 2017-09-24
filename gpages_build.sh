@@ -22,6 +22,8 @@ name=$3
 email=$4
 branch=${5:-"master"} # default to master when branch isn't specified
 
+polymer analyze > analysis.json
+
 mkdir temp && cd temp
 
 # make folder (same as input, no checking!)
