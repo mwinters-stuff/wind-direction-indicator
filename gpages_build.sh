@@ -22,8 +22,6 @@ name=$3
 email=$4
 branch=${5:-"master"} # default to master when branch isn't specified
 
-polymer analyze > analysis.json
-
 mkdir temp && cd temp
 
 # make folder (same as input, no checking!)
@@ -49,6 +47,10 @@ bower install $org/$repo#$branch
 git checkout ${branch} -- demo
 rm -rf components/$repo/demo
 mv demo components/$repo/
+pushd .
+cd components/$repo/demo
+polymer analyze > analysis.json
+popd
 
 # redirect by default to the component folder
 echo "<META http-equiv="refresh" content=\"0;URL=components/$repo/\">" >index.html
